@@ -16,7 +16,7 @@ public class NotificationTest : MonoBehaviour
 	public InputField action2;
 	public Slider delay;
 	public Dropdown type;
-
+	public Dropdown icon;
 	void Awake()
     {
         LocalNotification.ClearNotifications();
@@ -49,12 +49,12 @@ public class NotificationTest : MonoBehaviour
 
 		case "Small Icon Notification":
 			status.text = "small icon notification set";
-			LocalNotification.SendNotification(1, delay, title, text, new Color32(0xff, 0x44, 0x44, 255), sound.isOn, light.isOn, vibration.isOn);
+			LocalNotification.SendNotification(1, delay, title, text, new Color32(0xff, 0x44, 0x44, 255), sound.isOn, light.isOn, vibration.isOn, "app_icon", icon.captionText.text);
 			break;
 
 		case "Big Icon Notification":
 			status.text = "Big icon notification set";
-			LocalNotification.SendNotification(1, delay, title, text, new Color32(0xff, 0x44, 0x44, 255), sound.isOn, light.isOn, vibration.isOn, "app_icon");
+			LocalNotification.SendNotification(1, delay, title, text, new Color32(0xff, 0x44, 0x44, 255), sound.isOn, light.isOn, vibration.isOn, "app_icon", icon.captionText.text);
 			break;
 
 		case "Action Notification":
@@ -63,12 +63,12 @@ public class NotificationTest : MonoBehaviour
 			actionBtn1.Foreground = false;
 			LocalNotification.Action actionBtn2 = new LocalNotification.Action ("action2", action2, this);
 			actionBtn2.Foreground = true;
-			LocalNotification.SendNotification(1, delay, title, text, new Color32(0xff, 0x44, 0x44, 255), sound.isOn, light.isOn, vibration.isOn, null, "boing", "default", actionBtn1, actionBtn2);
+			LocalNotification.SendNotification(1, delay, title, text, new Color32(0xff, 0x44, 0x44, 255), sound.isOn, light.isOn, vibration.isOn, null, icon.captionText.text, "boing", "default", actionBtn1, actionBtn2);
 			break;
 
 		case "Repeat":
 			status.text = "notification repeat";
-			LocalNotification.SendRepeatingNotification(1, delay, 5000, title, text, new Color32(0xff, 0x44, 0x44, 255), sound.isOn, light.isOn, vibration.isOn);
+			LocalNotification.SendRepeatingNotification(1, delay, 5000, title, text, new Color32(0xff, 0x44, 0x44, 255), sound.isOn, light.isOn, vibration.isOn, null, icon.captionText.text);
 			break;
 
 		case "Stop":

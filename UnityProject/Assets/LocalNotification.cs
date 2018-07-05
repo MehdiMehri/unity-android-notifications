@@ -19,25 +19,27 @@ public class LocalNotification
     private static string bundleIdentifier { get { return Application.bundleIdentifier; } }
 #endif
 
-    public static int SendNotification(TimeSpan delay, string title, string message, Color32 bgColor, bool sound = true, bool vibrate = true, bool lights = true, string bigIcon = "", String soundName = null, string channel = "default", params Action[] actions)
+	public static int SendNotification(TimeSpan delay, string title, string message, Color32 bgColor, bool sound = true, bool vibrate = true, bool lights = true, string bigIcon = "",string smallIcon = "", String soundName = null, string channel = "default", params Action[] actions)
     {
         int id = new System.Random().Next();
-        return SendNotification(id, (long)delay.TotalSeconds * 1000, title, message, bgColor, sound, vibrate, lights, bigIcon, soundName, channel, actions);
+		return SendNotification(id, (long)delay.TotalSeconds * 1000, title, message, bgColor, sound, vibrate, lights, bigIcon,smallIcon, soundName, channel, actions);
     }
 
-    public static int SendNotification(int id, TimeSpan delay, string title, string message, Color32 bgColor, bool sound = true, bool vibrate = true, bool lights = true, string bigIcon = "", String soundName = null, string channel = "default", params Action[] actions)
+	public static int SendNotification(int id, TimeSpan delay, string title, string message, Color32 bgColor, bool sound = true, bool vibrate = true, bool lights = true, string bigIcon = "",string smallIcon = "", String soundName = null, string channel = "default", params Action[] actions)
     {
-        return SendNotification(id, (long)delay.TotalSeconds * 1000, title, message, bgColor, sound, vibrate, lights, bigIcon, soundName, channel, actions);
+		return SendNotification(id, (long)delay.TotalSeconds * 1000, title, message, bgColor, sound, vibrate, lights, bigIcon,smallIcon, soundName, channel, actions);
     }
 
-    public static int SendNotification(int id, long delayMs, string title, string message, Color32 bgColor, bool sound = true, bool vibrate = true, bool lights = true, string bigIcon = "", String soundName = null, string channel = "default", params Action[] actions)
+	public static int SendNotification(int id, long delayMs, string title, string message, Color32 bgColor, bool sound = true, bool vibrate = true, bool lights = true, string bigIcon = "", string smallIcon = "", String soundName = null, string channel = "default", params Action[] actions)
     {
+		if (smallIcon == "")
+			smallIcon = "ic_stat_mail_outline";
 #if UNITY_ANDROID && !UNITY_EDITOR
         AndroidJavaClass pluginClass = new AndroidJavaClass(fullClassName);
         if (pluginClass != null)
         {
             pluginClass.CallStatic("SetNotification", id, delayMs, title, message, message,
-                sound ? 1 : 0, soundName, vibrate ? 1 : 0, lights ? 1 : 0, bigIcon, "notify_icon_small",
+		sound ? 1 : 0, soundName, vibrate ? 1 : 0, lights ? 1 : 0, bigIcon, smallIcon,
                 ToInt(bgColor), bundleIdentifier, channel, PopulateActions(actions));
         }
         return id;
@@ -58,25 +60,27 @@ public class LocalNotification
 #endif
     }
 
-    public static int SendRepeatingNotification(TimeSpan delay, TimeSpan timeout, string title, string message, Color32 bgColor, bool sound = true, bool vibrate = true, bool lights = true, string bigIcon = "", String soundName = null, string channel = "default", params Action[] actions)
+	public static int SendRepeatingNotification(TimeSpan delay, TimeSpan timeout, string title, string message, Color32 bgColor, bool sound = true, bool vibrate = true, bool lights = true, string bigIcon = "",string smallIcon = "", String soundName = null, string channel = "default", params Action[] actions)
     {
         int id = new System.Random().Next();
-        return SendRepeatingNotification(id, (long)delay.TotalSeconds * 1000, (int)timeout.TotalSeconds, title, message, bgColor, sound, vibrate, lights, bigIcon, soundName, channel, actions);
+		return SendRepeatingNotification(id, (long)delay.TotalSeconds * 1000, (int)timeout.TotalSeconds, title, message, bgColor, sound, vibrate, lights, bigIcon,smallIcon, soundName, channel, actions);
     }
 
-    public static int SendRepeatingNotification(int id, TimeSpan delay, TimeSpan timeout, string title, string message, Color32 bgColor, bool sound = true, bool vibrate = true, bool lights = true, string bigIcon = "", String soundName = null, string channel = "default", params Action[] actions)
+	public static int SendRepeatingNotification(int id, TimeSpan delay, TimeSpan timeout, string title, string message, Color32 bgColor, bool sound = true, bool vibrate = true, bool lights = true, string bigIcon = "",string smallIcon = "", String soundName = null, string channel = "default", params Action[] actions)
     {
-        return SendRepeatingNotification(id, (long)delay.TotalSeconds * 1000, (int)timeout.TotalSeconds, title, message, bgColor, sound, vibrate, lights, bigIcon, soundName, channel, actions);
+		return SendRepeatingNotification(id, (long)delay.TotalSeconds * 1000, (int)timeout.TotalSeconds, title, message, bgColor, sound, vibrate, lights, bigIcon,smallIcon, soundName, channel, actions);
     }
 
-    public static int SendRepeatingNotification(int id, long delayMs, long timeoutMs, string title, string message, Color32 bgColor, bool sound = true, bool vibrate = true, bool lights = true, string bigIcon = "", String soundName = null, string channel = "default", params Action[] actions)
+	public static int SendRepeatingNotification(int id, long delayMs, long timeoutMs, string title, string message, Color32 bgColor, bool sound = true, bool vibrate = true, bool lights = true, string bigIcon = "",string smallIcon = "", String soundName = null, string channel = "default", params Action[] actions)
     {
+		if (smallIcon == "")
+			smallIcon = "ic_stat_mail_outline";
 #if UNITY_ANDROID && !UNITY_EDITOR
         AndroidJavaClass pluginClass = new AndroidJavaClass(fullClassName);
         if (pluginClass != null)
         {
             pluginClass.CallStatic("SetRepeatingNotification", id, delayMs, title, message, message, timeoutMs,
-                sound ? 1 : 0, soundName, vibrate ? 1 : 0, lights ? 1 : 0, bigIcon, "notify_icon_small",
+		sound ? 1 : 0, soundName, vibrate ? 1 : 0, lights ? 1 : 0, bigIcon, smallIcon,
                 ToInt(bgColor), bundleIdentifier, channel, PopulateActions(actions));
         }
         return id;
